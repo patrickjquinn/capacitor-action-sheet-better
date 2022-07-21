@@ -40,4 +40,8 @@ public class ActionSheetPlugin: CAPPlugin {
         }
     }
 
+    @objc func cancel(_ call: CAPPluginCall) {
+        call.resolve()
+    }
+
 }

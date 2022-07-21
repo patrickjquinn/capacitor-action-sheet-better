@@ -1,11 +1,11 @@
-# @capacitor/action-sheet
+# capacitor-action-sheet-better
 
 The Action Sheet API provides access to native Action Sheets, which come up from the bottom of the screen and display actions a user can take.
 
 ## Install
 
 ```bash
-npm install @capacitor/action-sheet
+npm install capacitor-action-sheet-better
 npx cap sync
 ```
 
@@ -22,7 +22,7 @@ This plugin will use the following project variables (defined in your app's `var
 ## Example
 
 ```typescript
-import { ActionSheet, ActionSheetButtonStyle } from '@capacitor/action-sheet';
+import { ActionSheet, cancel, ActionSheetButtonStyle } from 'capacitor-action-sheet-better';
 
 const showActions = async () => {
   const result = await ActionSheet.showActions({
@@ -44,6 +44,10 @@ const showActions = async () => {
 
   console.log('Action Sheet result:', result);
 };
+
+const cancelAS = async () => {
+  cancel()
+}
 ```
 
 ## API
@@ -51,6 +55,7 @@ const showActions = async () => {
 <docgen-index>
 
 * [`showActions(...)`](#showactions)
+* [`cancel()`](#cancel)
 * [Interfaces](#interfaces)
 * [Enums](#enums)
 
@@ -62,7 +67,7 @@ const showActions = async () => {
 ### showActions(...)
 
 ```typescript
-showActions(options: ShowActionsOptions) => Promise<ShowActionsResult>
+showActions(options: ShowActionsOptions) => any
 ```
 
 Show an Action Sheet style modal with various options for the user
@@ -72,9 +77,20 @@ to select.
 | ------------- | ----------------------------------------------------------------- |
 | **`options`** | <code><a href="#showactionsoptions">ShowActionsOptions</a></code> |
 
-**Returns:** <code>Promise&lt;<a href="#showactionsresult">ShowActionsResult</a>&gt;</code>
+**Returns:** <code>any</code>
 
 **Since:** 1.0.0
+
+--------------------
+
+
+### cancel()
+
+```typescript
+cancel() => any
+```
+
+**Returns:** <code>any</code>
 
 --------------------
 
@@ -82,20 +98,13 @@ to select.
 ### Interfaces
 
 
-#### ShowActionsResult
-
-| Prop        | Type                | Description                                  | Since |
-| ----------- | ------------------- | -------------------------------------------- | ----- |
-| **`index`** | <code>number</code> | The index of the clicked option (Zero-based) | 1.0.0 |
-
-
 #### ShowActionsOptions
 
-| Prop          | Type                             | Description                                                              | Since |
-| ------------- | -------------------------------- | ------------------------------------------------------------------------ | ----- |
-| **`title`**   | <code>string</code>              | The title of the Action Sheet.                                           | 1.0.0 |
-| **`message`** | <code>string</code>              | A message to show under the title. This option is only supported on iOS. | 1.0.0 |
-| **`options`** | <code>ActionSheetButton[]</code> | Options the user can choose from.                                        | 1.0.0 |
+| Prop          | Type                | Description                                                              | Since |
+| ------------- | ------------------- | ------------------------------------------------------------------------ | ----- |
+| **`title`**   | <code>string</code> | The title of the Action Sheet.                                           | 1.0.0 |
+| **`message`** | <code>string</code> | A message to show under the title. This option is only supported on iOS. | 1.0.0 |
+| **`options`** | <code>{}</code>     | Options the user can choose from.                                        | 1.0.0 |
 
 
 #### ActionSheetButton
@@ -105,6 +114,13 @@ to select.
 | **`title`** | <code>string</code>                                                       | The title of the option                                                               | 1.0.0 |
 | **`style`** | <code><a href="#actionsheetbuttonstyle">ActionSheetButtonStyle</a></code> | The style of the option This option is only supported on iOS.                         | 1.0.0 |
 | **`icon`**  | <code>string</code>                                                       | Icon for the option (ionicon naming convention) This option is only supported on Web. | 1.0.0 |
+
+
+#### ShowActionsResult
+
+| Prop        | Type                | Description                                  | Since |
+| ----------- | ------------------- | -------------------------------------------- | ----- |
+| **`index`** | <code>number</code> | The index of the clicked option (Zero-based) | 1.0.0 |
 
 
 ### Enums

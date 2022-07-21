@@ -96,8 +96,19 @@ public class ActionSheet extends BottomSheetDialogFragment {
 
         for (int i = 0; i < options.length; i++) {
             final int optionIndex = i;
+            final String optionStyle = options[i].getStyle();
 
             TextView tv = new TextView(getContext());
+            LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1f);
+
+            if (optionStyle != null) {
+                if (optionStyle.equals("CANCEL")) {
+                    tv.setTypeface(null,Typeface.BOLD);
+                } else if (optionStyle.equals("DESTRUCTIVE")) {
+                    tv.setTextColor(Color.parseColor("#f44336"));
+                }
+            }
+            tv.setLayoutParams(params);
             tv.setTextColor(Color.parseColor("#000000"));
             tv.setPadding(layoutPaddingPx12, layoutPaddingPx12, layoutPaddingPx12, layoutPaddingPx12);
             tv.setText(options[i].getTitle());
@@ -116,6 +127,8 @@ public class ActionSheet extends BottomSheetDialogFragment {
         parentLayout.addView(layout.getRootView());
 
         dialog.setContentView(parentLayout.getRootView());
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) parentLayout.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = params.getBehavior();

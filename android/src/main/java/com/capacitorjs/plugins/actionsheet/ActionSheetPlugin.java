@@ -35,6 +35,7 @@ public class ActionSheetPlugin extends Plugin {
             for (int i = 0; i < optionsList.size(); i++) {
                 JSObject o = JSObject.fromJSONObject((JSONObject) optionsList.get(i));
                 String titleOption = o.getString("title", "");
+                String style = o.getString("style", 0);
                 actionOptions[i] = new ActionSheetOption(titleOption);
             }
             implementation.setTitle(title);
@@ -53,5 +54,10 @@ public class ActionSheetPlugin extends Plugin {
             Logger.error("JSON error processing an option for showActions", ex);
             call.reject("JSON error processing an option for showActions", ex);
         }
+    }
+
+    @PluginMethod
+    public void cancel(final PluginCall call) {
+        implementation.dismiss();
     }
 }

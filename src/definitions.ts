@@ -91,6 +91,7 @@ export interface ActionSheetPlugin {
    * @since 1.0.0
    */
   showActions(options: ShowActionsOptions): Promise<ShowActionsResult>;
+  cancel(): Promise<void>;
 }
 
 /**

@@ -25,4 +25,15 @@ export class ActionSheetWeb extends WebPlugin implements ActionSheetPlugin {
       });
     });
   }
+  async cancel(): Promise<void> {
+    return new Promise<void>((resolve, _reject) => {
+      const actionSheet: any = document.querySelector('pwa-action-sheet');
+      if (actionSheet) {
+        actionSheet.cancel();
+        resolve()
+        return
+      }
+      _reject()
+    });
+  }
 }
