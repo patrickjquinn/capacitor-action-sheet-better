@@ -35,8 +35,8 @@ public class ActionSheetPlugin extends Plugin {
             for (int i = 0; i < optionsList.size(); i++) {
                 JSObject o = JSObject.fromJSONObject((JSONObject) optionsList.get(i));
                 String titleOption = o.getString("title", "");
-                String style = o.getString("style", 0);
-                actionOptions[i] = new ActionSheetOption(titleOption);
+                String style = o.getString("style");
+                actionOptions[i] = new ActionSheetOption(titleOption, style);
             }
             implementation.setTitle(title);
             implementation.setOptions(actionOptions);

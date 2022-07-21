@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorActionSheet',
+      name: 'capacitorActionSheetBetter',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },

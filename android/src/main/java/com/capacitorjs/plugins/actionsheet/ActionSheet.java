@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.view.KeyEvent;
+import android.graphics.Typeface;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -100,6 +103,7 @@ public class ActionSheet extends BottomSheetDialogFragment {
 
             TextView tv = new TextView(getContext());
             LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1f);
+            tv.setTextColor(Color.parseColor("#000000"));
 
             if (optionStyle != null) {
                 if (optionStyle.equals("CANCEL")) {
@@ -109,7 +113,6 @@ public class ActionSheet extends BottomSheetDialogFragment {
                 }
             }
             tv.setLayoutParams(params);
-            tv.setTextColor(Color.parseColor("#000000"));
             tv.setPadding(layoutPaddingPx12, layoutPaddingPx12, layoutPaddingPx12, layoutPaddingPx12);
             tv.setText(options[i].getTitle());
             tv.setOnClickListener(
@@ -126,9 +129,18 @@ public class ActionSheet extends BottomSheetDialogFragment {
 
         parentLayout.addView(layout.getRootView());
 
-        dialog.setContentView(parentLayout.getRootView());
+        dialog.setOnKeyListener((arg0, keyCode, event) -> {            
+            if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+                dismiss();                
+                return true;
+            }
+            return true;
+        });
+
         dialog.setCanceledOnTouchOutside(true);
         dialog.setCancelable(true);
+        dialog.setContentView(parentLayout.getRootView());
+        
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) parentLayout.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = params.getBehavior();

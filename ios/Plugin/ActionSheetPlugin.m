@@ -6,5 +6,4 @@
 CAP_PLUGIN(ActionSheetPlugin, "ActionSheet",
         CAP_PLUGIN_METHOD(showActions, CAPPluginReturnPromise);
         CAP_PLUGIN_METHOD(cancel, CAPPluginReturnPromise);
-
 )
