@@ -6,6 +6,7 @@
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "unpkg": "dist/plugin.js",
+  "type": "module",
   "files": [
     "android/src/main/",
     "android/build.gradle",
@@ -45,20 +46,20 @@
     "publish:cocoapod": "pod trunk push ./CapacitorActionSheetBetter.podspec --allow-warnings"
   },
   "devDependencies": {
-    "@capacitor/android": "3.6.0",
-    "@capacitor/core": "3.6.0",
-    "@capacitor/docgen": "0.0.18",
-    "@capacitor/ios": "3.6.0",
+    "@capacitor/android": "5.2.2",
+    "@capacitor/core": "5.2.2",
+    "@capacitor/docgen": "0.2.1",
+    "@capacitor/ios": "5.2.2",
     "@ionic/eslint-config": "^0.3.0",
-    "@ionic/prettier-config": "~1.0.1",
+    "@ionic/prettier-config": "~4.0.0",
     "@ionic/swiftlint-config": "^1.1.2",
-    "eslint": "^7.11.0",
-    "prettier": "~2.3.0",
-    "prettier-plugin-java": "~1.0.2",
-    "rimraf": "^3.0.0",
-    "rollup": "^2.29.0",
-    "swiftlint": "^1.0.1",
-    "typescript": "~4.1.5"
+    "eslint": "^8.46.0",
+    "prettier": "~3.0.1",
+    "prettier-plugin-java": "~2.2.0",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.27.2",
+    "swiftlint": "^1.0.2",
+    "typescript": "~5.1.6"
   },
   "peerDependencies": {
     "@capacitor/core": "next"

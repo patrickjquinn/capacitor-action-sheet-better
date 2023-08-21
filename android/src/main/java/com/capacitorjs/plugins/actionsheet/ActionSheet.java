@@ -1,17 +1,18 @@
 package com.capacitorjs.plugins.actionsheet;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.view.KeyEvent;
 import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.getcapacitor.Logger;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -22,21 +23,10 @@ public class ActionSheet extends BottomSheetDialogFragment {
         void onSelect(int index);
     }
 
-    public interface OnCancelListener {
-        void onCancel();
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        this.cancelListener.onCancel();
-    }
-
     private String title;
     private ActionSheetOption[] options;
 
     private OnSelectListener listener;
-    private OnCancelListener cancelListener;
 
     public void setTitle(String title) {
         this.title = title;
@@ -50,11 +40,7 @@ public class ActionSheet extends BottomSheetDialogFragment {
         this.listener = listener;
     }
 
-    public void setOnCancelListener(OnCancelListener listener) {
-        this.cancelListener = listener;
-    }
-
-    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
+    private final BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
         @Override
         public void onStateChanged(@NonNull View bottomSheet, int newState) {
             if (newState == BottomSheetBehavior.STATE_HIDDEN) {
@@ -66,29 +52,24 @@ public class ActionSheet extends BottomSheetDialogFragment {
         public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
     };
 
+    @Nullable
     @Override
-    @SuppressLint("RestrictedApi")
-    public void setupDialog(Dialog dialog, int style) {
-        super.setupDialog(dialog, style);
-
-        if (options == null) {
-            return;
-        }
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final float scale = getResources().getDisplayMetrics().density;
+        int layoutPaddingPx16 = (int) (16 * scale + 0.5f);
+        int layoutPaddingPx12 = (int) (12 * scale + 0.5f);
+        int layoutPaddingPx8 = (int) (8 * scale + 0.5f);
 
-        float layoutPaddingDp16 = 16.0f;
-        float layoutPaddingDp12 = 12.0f;
-        float layoutPaddingDp8 = 8.0f;
-        int layoutPaddingPx16 = (int) (layoutPaddingDp16 * scale + 0.5f);
-        int layoutPaddingPx12 = (int) (layoutPaddingDp12 * scale + 0.5f);
-        int layoutPaddingPx8 = (int) (layoutPaddingDp8 * scale + 0.5f);
+        CoordinatorLayout parentLayout = new CoordinatorLayout(requireContext());
+        parentLayout.setLayoutParams(new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT));
+        parentLayout.setBackgroundColor(0x00000000);  // Fully transparent color
 
-        CoordinatorLayout parentLayout = new CoordinatorLayout(getContext());
-
-        LinearLayout layout = new LinearLayout(getContext());
+        LinearLayout layout = new LinearLayout(requireContext());
         layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setLayoutParams(new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.WRAP_CONTENT));
         layout.setPadding(layoutPaddingPx16, layoutPaddingPx16, layoutPaddingPx16, layoutPaddingPx16);
+        layout.setBackgroundColor(Color.BLACK);
+
         if (title != null) {
             TextView ttv = new TextView(getContext());
             ttv.setTextColor(Color.parseColor("#757575"));
@@ -102,8 +83,8 @@ public class ActionSheet extends BottomSheetDialogFragment {
             final String optionStyle = options[i].getStyle();
 
             TextView tv = new TextView(getContext());
-            LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1f);
-            tv.setTextColor(Color.parseColor("#000000"));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            tv.setTextColor(Color.WHITE);  // Set the default text color to white
 
             if (optionStyle != null) {
                 if (optionStyle.equals("CANCEL")) {
@@ -112,41 +93,47 @@ public class ActionSheet extends BottomSheetDialogFragment {
                     tv.setTextColor(Color.parseColor("#f44336"));
                 }
             }
+
             tv.setLayoutParams(params);
             tv.setPadding(layoutPaddingPx12, layoutPaddingPx12, layoutPaddingPx12, layoutPaddingPx12);
             tv.setText(options[i].getTitle());
             tv.setOnClickListener(
-                view -> {
-                    Logger.debug("CliCKED: " + optionIndex);
-
-                    if (listener != null) {
-                        listener.onSelect(optionIndex);
+                    view -> {
+                        Logger.debug("Clicked: " + optionIndex);
+                        if (listener != null) {
+                            listener.onSelect(optionIndex);
+                        }
                     }
-                }
             );
             layout.addView(tv);
         }
 
-        parentLayout.addView(layout.getRootView());
+        parentLayout.addView(layout);
 
-        dialog.setOnKeyListener((arg0, keyCode, event) -> {            
-            if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-                dismiss();                
-                return true;
-            }
-            return true;
-        });
+        return parentLayout;
+    }
 
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setCancelable(true);
-        dialog.setContentView(parentLayout.getRootView());
-        
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) parentLayout.getParent()).getLayoutParams();
-        CoordinatorLayout.Behavior behavior = params.getBehavior();
+        View bottomSheetInternal = view.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+        if (bottomSheetInternal != null) {
+            bottomSheetInternal.setBackgroundColor(Color.TRANSPARENT);
+        }
 
-        if (behavior != null && behavior instanceof BottomSheetBehavior) {
-            ((BottomSheetBehavior) behavior).addBottomSheetCallback(mBottomSheetBehaviorCallback);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) view.getParent()).getLayoutParams();
+        CoordinatorLayout.Behavior<?> behavior = params.getBehavior();
+        if (behavior instanceof BottomSheetBehavior<?>) {
+            BottomSheetBehavior<View> bottomSheetBehavior = (BottomSheetBehavior<View>) behavior;
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            bottomSheetBehavior.setHideable(true);
+            bottomSheetBehavior.addBottomSheetCallback(mBottomSheetBehaviorCallback);
+        }
+
+        if (getDialog() != null) {
+            getDialog().setCancelable(true);
+            getDialog().setCanceledOnTouchOutside(true);
         }
     }
 }
