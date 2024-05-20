@@ -1,6 +1,6 @@
 {
   "name": "capacitor-action-sheet-better",
-  "version": "0.8.0",
+  "version": "0.8.3",
   "description": "The Action Sheet API provides access to native Action Sheets, which come up from the bottom of the screen and display actions a user can take.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -46,10 +46,10 @@
     "publish:cocoapod": "pod trunk push ./CapacitorActionSheetBetter.podspec --allow-warnings"
   },
   "devDependencies": {
-    "@capacitor/android": "5.2.2",
-    "@capacitor/core": "5.2.2",
-    "@capacitor/docgen": "0.2.1",
-    "@capacitor/ios": "5.2.2",
+    "@capacitor/android": "^5.2.3",
+    "@capacitor/core": "^5.2.3",
+    "@capacitor/docgen": "^0.2.1",
+    "@capacitor/ios": "^5.2.3",
     "@ionic/eslint-config": "^0.3.0",
     "@ionic/prettier-config": "~4.0.0",
     "@ionic/swiftlint-config": "^1.1.2",
@@ -57,12 +57,12 @@
     "prettier": "~3.0.2",
     "prettier-plugin-java": "~2.2.0",
     "rimraf": "^5.0.1",
-    "rollup": "^3.28.0",
+    "rollup": "^3.28.1",
     "swiftlint": "^1.0.2",
     "typescript": "~5.1.6"
   },
   "peerDependencies": {
-    "@capacitor/core": "next"
+    "@capacitor/core": "^5.2.3"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
